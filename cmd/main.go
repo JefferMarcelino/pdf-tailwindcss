@@ -18,6 +18,7 @@ func main() {
 	pdfGenerator := browserless.NewBrowserlessPDFGenerator(
 		cfg.BrowserlessHost,
 		cfg.BrowserlessToken,
+		cfg.TailwindCSSFileURL,
 	)
 	pdfService := application.NewPDFService(pdfGenerator)
 	pdfHanlder := http.NewPDFHandler(pdfService)

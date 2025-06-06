@@ -6,21 +6,21 @@ import (
 	"fmt"
 	"io"
 	"net/http"
-	"os"
 	"pdf-tailwindcss/internal/domain"
 )
 
 type BrowserlessPDFGenerator struct {
-	token string
-	host  string
+	token              string
+	host               string
+	tailwindcssFileUrl string
 }
 
-func NewBrowserlessPDFGenerator(host, token string) domain.PDFGenerator {
-	return &BrowserlessPDFGenerator{token: token, host: host}
+func NewBrowserlessPDFGenerator(host, token, tailwindcssFileUrl string) domain.PDFGenerator {
+	return &BrowserlessPDFGenerator{token: token, host: host, tailwindcssFileUrl: tailwindcssFileUrl}
 }
 
 func (b *BrowserlessPDFGenerator) GeneratePDF(html string) ([]byte, error) {
-	fullHTML, err := buildFinalHTML(html)
+	fullHTML, err := buildFinalHTML(b.tailwindcssFileUrl, html)
 	if err != nil {
 		return nil, err
 	}
@@ -57,23 +57,18 @@ func (b *BrowserlessPDFGenerator) GeneratePDF(html string) ([]byte, error) {
 	return io.ReadAll(resp.Body)
 }
 
-func buildFinalHTML(htmlContent string) (string, error) {
-	tailwindCSS, err := os.ReadFile("./tailwind.css")
-	if err != nil {
-		return "", fmt.Errorf("failed to read tailwind css: %w", err)
-	}
-
+func buildFinalHTML(tailwindcssFileUrl, htmlContent string) (string, error) {
 	fullHTML := fmt.Sprintf(`
 		<html>
 			<head>
 				<meta charset="utf-8">
-				<style>%s</style>
+				<link href="%s" rel="stylesheet">
 			</head>
 			<body>
 				%s
 			</body>
 		</html>
-	`, string(tailwindCSS), htmlContent)
+	`, tailwindcssFileUrl, htmlContent)
 
 	return fullHTML, nil
 }

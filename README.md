@@ -33,4 +33,5 @@ This is a Go API service that takes **raw HTML styled with TailwindCSS**, sends 
 PORT=3000
 BROWSERLESS_HOST=https://chrome.browserless.io
 BROWSERLESS_TOKEN=your_browserless_api_key
+TAILWINDCSS_URL=https://unpkg.com/tailwindcss@2.0.1/dist/tailwind.css
 ```

@@ -8,9 +8,10 @@ import (
 )
 
 type Config struct {
-	BrowserlessHost  string
-	BrowserlessToken string
-	Port             string
+	BrowserlessHost    string
+	BrowserlessToken   string
+	TailwindCSSFileURL string
+	Port               string
 }
 
 func Load() *Config {
@@ -21,8 +22,9 @@ func Load() *Config {
 	}
 
 	return &Config{
-		BrowserlessHost:  os.Getenv("BROWSERLESS_HOST"),
-		BrowserlessToken: os.Getenv("BROWSERLESS_TOKEN"),
-		Port:             os.Getenv("PORT"),
+		BrowserlessHost:    os.Getenv("BROWSERLESS_HOST"),
+		BrowserlessToken:   os.Getenv("BROWSERLESS_TOKEN"),
+		TailwindCSSFileURL: os.Getenv("TAILWINDCSS_URL"),
+		Port:               os.Getenv("PORT"),
 	}
 }
