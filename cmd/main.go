@@ -8,12 +8,15 @@ import (
 	"pdf-tailwindcss/internal/config"
 
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/cors"
 )
 
 func main() {
 	cfg := config.Load()
 
 	app := fiber.New()
+
+	app.Use(cors.New())
 
 	pdfGenerator := browserless.NewBrowserlessPDFGenerator(
 		cfg.BrowserlessHost,
